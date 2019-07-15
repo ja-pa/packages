@@ -1,6 +1,6 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=python3-importlib_metadata
+PKG_NAME:=python-importlib_metadata
 PKG_VERSION:=0.18
 PKG_RELEASE:=1
 
