@@ -7,7 +7,7 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=py
+PKG_NAME:=python-py
 PKG_VERSION:=1.8.0
 PKG_RELEASE:=1
 
