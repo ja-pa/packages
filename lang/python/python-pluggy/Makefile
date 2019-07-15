@@ -7,7 +7,7 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=pluggy
+PKG_NAME:=python-pluggy
 PKG_VERSION:=0.12.0
 PKG_RELEASE:=1
 
