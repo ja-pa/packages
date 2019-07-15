@@ -31,7 +31,7 @@ define Package/python3-pluggy
   CATEGORY:=Languages
   TITLE:=Plugin and hook calling mechanisms for Python
   URL:=https://github.com/pytest-dev/pluggy
-  DEPENDS:=+python3-light
+  DEPENDS:=+python3-light +python3-importlib-metadata
   VARIANT:=python3
 endef
 
