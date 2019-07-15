@@ -8,11 +8,11 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=packaging
+PKG_NAME:=python-packaging
 PKG_VERSION:=19.0
 PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE:=packaging-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://files.pythonhosted.org/packages/source/p/packaging/
 PKG_HASH:=0c98a5d0be38ed775798ece1b9727178c4469d9c3b4ada66e8e6b7849f8732af
 
