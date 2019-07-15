@@ -29,7 +29,7 @@ define Package/python3-packaging
   SUBMENU:=Python
   TITLE:=Core utilities for Python packages
   URL:=https://github.com/pypa/packaging
-  DEPENDS:=+python3-light +python3-pyparsing +python3-six +python3-attrs
+  DEPENDS:=+python3-light +python3-pyparsing +python3-six
   VARIANT:=python3
 endef
 
