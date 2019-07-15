@@ -8,11 +8,11 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=pyparsing
+PKG_NAME:=python-pyparsing
 PKG_VERSION:=2.4.0
 PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE:=pyparsing-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://files.pythonhosted.org/packages/source/p/pyparsing/
 PKG_HASH:=1873c03321fc118f4e9746baf201ff990ceb915f433f23b395f5580d1840cb2a
 
