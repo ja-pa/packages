@@ -25,6 +25,8 @@ include ../python3-package.mk
 PYTHON3_PKG_SETUP_VARS:= \
         PKG_VERSION="$(PKG_VERSION)"
 
+PKG_BUILD_DEPENDS:=+python3-setuptools
+
 define Package/python3-pytest
   SUBMENU:=Python
   SECTION:=lang
@@ -33,17 +35,14 @@ define Package/python3-pytest
   URL:=https://docs.pytest.org/en/latest/
   DEPENDS:= \
 	+python3-light \
-	+python3-setuptools \
 	+python3-atomicwrites \
 	+python3-more-itertools \
 	+python3-py \
-	+python3-six \
 	+python3-attrs \
 	+python3-pluggy \
 	+python3-importlib-metadata \
 	+python3-packaging \
-	+python3-wcwidth \
-	+python3-zipp
+	+python3-wcwidth
   VARIANT:=python3
 endef
 
