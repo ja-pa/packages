@@ -8,11 +8,11 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=wcwidth
+PKG_NAME:=python-wcwidth
 PKG_VERSION:=0.1.7
 PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE:=wcwidth-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://files.pythonhosted.org/packages/source/w/wcwidth/
 PKG_HASH:=3df37372226d6e63e1b1e1eda15c594bca98a22d33a23832a90998faa96bc65e
 
