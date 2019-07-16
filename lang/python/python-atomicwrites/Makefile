@@ -14,6 +14,7 @@ PKG_RELEASE:=1
 PKG_SOURCE:=atomicwrites-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://files.pythonhosted.org/packages/source/a/atomicwrites/
 PKG_HASH:=75a9445bac02d8d058d5e1fe689654ba5a6556a1dfd8ce6ec55a0ed79866cfa6
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(atomicwrites-$(PKG_VERSION)
 
 PKG_MAINTAINER:=Jan Pavlinec <jan.pavlinec@nic.cz>
 PKG_LICENSE:=MIT
