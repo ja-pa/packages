@@ -1,0 +1,14 @@
+--- a/augeas/ffi.py
++++ b/augeas/ffi.py
+@@ -43,8 +43,10 @@ const char *aug_error_details(augeas *au
+ 
+ void free(void *);
+ """)
++import os
+ 
+-lib = ffi.dlopen("augeas")
++if os.path.isfile('/etc/openwrt_version'):
++	lib = ffi.dlopen("libaugeas.so")
+ 
+ if __name__ == "__main__":
+     ffi.compile(verbose=True)
