@@ -1,0 +1,14 @@
+Index: golang-dnstap-0.2.0/go.mod
+===================================================================
+--- /dev/null
++++ golang-dnstap-0.2.0/go.mod
+@@ -0,0 +1,9 @@
++module github.com/dnstap/golang-dnstap
++
++go 1.13
++
++require (
++	github.com/farsightsec/golang-framestream v0.0.0-20190425193708-fa4b164d59b8
++	github.com/golang/protobuf v1.4.2
++	github.com/miekg/dns v1.1.31
++)
