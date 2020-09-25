@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=openssh
 PKG_VERSION:=8.3p1
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/ \
@@ -151,6 +151,18 @@ define Package/openssh-sftp-avahi-service/conffiles
 /etc/avahi/services/sftp-ssh.service
 endef
 
+define Package/openssh-copy-id
+	$(call Package/openssh/Default)
+	DEPENDS+= +openssh-client
+	TITLE+= ssh-copy-id
+endef
+
+define Package/openssh-copy-id/description
+  ssh-copy-id installs an SSH key on a server as an authorized key.
+endef
+
+
+
 CONFIGURE_ARGS += \
 	--sysconfdir=/etc/ssh \
 	--with-privsep-user=sshd \
@@ -250,6 +262,11 @@ define Package/openssh-sftp-avahi-service/install
 	$(INSTALL_DATA) ./files/sftp-ssh.service $(1)/etc/avahi/services/
 endef
 
+define Package/openssh-copy-id/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/contrib/ssh-copy-id $(1)/usr/bin/
+endef
+
 $(eval $(call BuildPackage,openssh-client))
 $(eval $(call BuildPackage,openssh-moduli))
 $(eval $(call BuildPackage,openssh-client-utils))
@@ -259,3 +276,4 @@ $(eval $(call BuildPackage,openssh-server-pam))
 $(eval $(call BuildPackage,openssh-sftp-client))
 $(eval $(call BuildPackage,openssh-sftp-server))
 $(eval $(call BuildPackage,openssh-sftp-avahi-service))
+$(eval $(call BuildPackage,openssh-copy-id))
