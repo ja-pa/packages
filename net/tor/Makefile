@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=tor
 PKG_VERSION:=0.4.5.6
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://dist.torproject.org/ \
@@ -141,6 +141,10 @@ endif
 
 TARGET_CFLAGS += -ffunction-sections -fdata-sections -flto
 TARGET_LDFLAGS += -Wl,--gc-sections -flto
+
+ifneq ($(OPENSSL_ENGINE),y)
+TARGET_CFLAGS += -DDISABLE_ENGINES
+endif
 
 CONFIGURE_VARS += \
 	CROSS_COMPILE="yes" \
