@@ -1,0 +1,16 @@
+Index: atlas-sw-probe-5020/bin/ATLAS
+===================================================================
+--- atlas-sw-probe-5020.orig/bin/ATLAS
++++ atlas-sw-probe-5020/bin/ATLAS
+@@ -7,9 +7,9 @@
+ #exec >/tmp/ATLAS.out 2>/tmp/ATLAS.err
+ #set -x
+ 
+-if [ -f bin/config.sh ]
++if [ -f /usr/libexec/atlas-probe-scripts/bin/config.sh ]
+ then
+-	. bin/config.sh
++	. /usr/libexec/atlas-probe-scripts/bin/config.sh
+ 	export DEVICE_NAME SUB_ARCH ATLAS_STATIC
+ else
+ 	echo no 'bin/config.sh' >&2
