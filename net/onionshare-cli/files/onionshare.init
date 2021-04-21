@@ -9,10 +9,11 @@ START=30
 #extra_command "create_backup" "Backup SSH key to .tar.gz"
 #extra_command "load_backup" "Load backup SSH key from .tar.gz"
 
+ONION_DIR=/etc/onionshare
 
 print_msg() {
 	echo "$1" >&2
-	logger -t atlas-sw-probe "$1"
+	logger -t onionshare "$1"
 }
 
 safe_mkdir() {
@@ -25,25 +26,43 @@ safe_mkdir() {
     chown root:root "$dir"
 }
 
-create_tmp_dirs() {
-	local dirs
-
-	chown -R atlas:atlas "$SCRIPTS_DIR/bin"
-	chmod 755 "$SCRIPTS_DIR/bin"
-	dirs='crons data run status'
-
-	safe_mkdir "$TMP_BASE_DIR"
-	for i in $dirs;	do
-		safe_mkdir "$TMP_BASE_DIR/$i"
-	done
-}
 
 onion_chat() {
  echo chat
 }
 
 onion_web() {
- echo web 
+	local name="$1"
+	local web_dir="$2"
+	local pub="$3"
+	local config_name="$ONION_DIR/$name.json"
+	echo web
+
+	procd_open_instance
+	procd_set_param command "/usr/bin/onionshare-cli"
+	procd_set_param stdout "$log_stdout"
+	procd_set_param stderr "$log_stderr"
+
+	#Public web without password
+	if [ -f "$config_name" ]; then
+		if [ "$pub" == "1" ]; then
+			cat "$config_name" |jq ".general.public=true">$config_name.aaa
+			mv $config_name.aaa $config_name
+		else
+			cat "$config_name" |jq ".general.public=false">$config_name.aaa
+			mv $config_name.aaa $config_name
+		fi
+		
+		web_dir_list="[\"$web_dir\"]"
+		cat /etc/onionshare/custom_name.json |jq ".website.filenames=$web_dir_list">$config_name.aaa
+		mv $config_name.aaa $config_name
+
+	fi
+	procd_append_param command --website $web_dir --persistent "$config_name"
+	[ "$pub" = "1" ] && procd_append_param command --public
+	procd_set_param pidfile "/var/run/onionshare/onionshare-$name.pid"
+	procd_close_instance
+
 }
 
 onion_recv() {
@@ -54,6 +73,7 @@ onion_start() {
 	local cfg="$1"
 
 	config_get name "$cfg" name
+	config_get_bool enabled "$cfg" enabled 0
 	config_get desc "$cfg" description
 	config_get mode "$cfg" mode 
 	config_get auto_stop "$cfg" auto_stop 
@@ -76,11 +96,17 @@ onion_start() {
         echo autostop_sharing  $autostop_sharing
         echo persistent  $persistent
 	
-	[ -z "$name" ] && echo "Empty name not allowed" && exit 1
+	[ -z "$name" ] && echo "Empty name not allowed."
+	[ "$enabled" = "1" ] || echo "Service $name not enabled."
 	
 	case "$mode" in
 	website)
-	onion_web
+		if [ ! -d "$web_dir" ]; then
+			echo "error $web_dir doesn't exists"
+			return 1
+		else
+			onion_web "$name" "$web_dir" "$pub"
+		fi
 	;;
 	recv)
 	onion_recv
@@ -101,22 +127,15 @@ start_service() {
 	local rxtxrpt
 	local test_setting
 
-	#create_tmp_dirs
-
-	#config_load atlas
-	#config_get_bool log_stderr "common" log_stderr "0"
-	#config_get_bool log_stdout "common" log_stdout "0"
-	#config_get_bool rxtxrpt "common" rxtxrpt "1"
-	#test_setting=$(grep "^[ 	]*RXTXRPT=yes" "$STATE_CONFIG")
+	mkdir -p /var/run/onionshare
+	mkdir -p $ONION_DIR
 	
 	config_load onionshare
 	config_foreach onion_start onionshare 
-
-	#procd_open_instance
-	#procd_set_param command "/usr/bin/onionshare-cli"
-	#procd_set_param stdout "$log_stdout"
-	#procd_set_param stderr "$log_stderr"
-	#procd_append_param command --website / --persistent /testconf.txt
-	#procd_set_param pidfile "/var/run/onionshare.pid"
-	#procd_close_instance
 }
+
+stop_service() {
+	tor_onion_pid=$(pgrep -f /.config/onionshare/tmp/)
+	kill $tor_onion_pid
+}
+

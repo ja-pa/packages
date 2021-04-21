@@ -44,7 +44,8 @@ define Package/onionshare-cli
     +python3-unidecode \
     +python3-cryptodome \
     +python3-urllib3 \
-    +tor
+    +tor \
+    +jq
 endef
 
 define Package/onionshare-cli/description
