@@ -29,7 +29,7 @@ define Package/atlas-probe
   SECTION:=net
   CATEGORY:=Network
   TITLE:=RIPE Atlas probe measurement
-  DEPENDS:=+librt +libopenssl +openssh-client +sudo
+  DEPENDS:=+librt +libopenssl +openssh-client +sudo +libcap-bin
   USERID:=atlas=444:atlas=444
   URL:=https://atlas.ripe.net/
 endef
@@ -65,6 +65,10 @@ define Package/atlas-probe/install
 		$(MAKE_FLAGS) CONFIG_PREFIX=$(1)/usr/libexec/atlas-probe install
 	$(INSTALL_DIR) $(1)/usr/libexec/atlas-probe/state
 	echo $(PKG_VERSION) > $(1)/usr/libexec/atlas-probe/state/VERSION
+endef
+
+define Package/open-iscsi/postinst
+[ -z "$$IPKG_INSTROOT" ] && setcap cap_net_raw=ep /usr/libexec/atlas-probe/bin/busybox
 endef
 
 $(eval $(call BuildPackage,atlas-probe))
