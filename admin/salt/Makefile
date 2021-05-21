@@ -52,6 +52,9 @@ define Py3Package/salt/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/scripts/salt $(1)/usr/bin
 	$(INSTALL_DIR) $(1)/etc/salt
 	$(CP) $(PKG_BUILD_DIR)/conf/{master,minion,proxy,roster} $(1)/etc/salt/
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(CP) ./files/salt-master.init $(1)/etc/init.d/salt-master
+	$(CP) ./files/salt-minion.init $(1)/etc/init.d/salt-minion
 endef
 
 $(eval $(call Py3Package,salt))
